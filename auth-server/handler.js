@@ -20,7 +20,7 @@ const credentials = {
   token_uri: "https://oauth2.googleapis.com/token",
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
   redirect_uris: ["https://olvaraba.github.io/meet/"],
-  javascript_origins: ["https://OlvarAba.github.io", "http://localhost:3000"],
+  javascript_origins: ["https://olvaraba.github.io", "http://localhost:3000"],
 };
 const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
 const oAuth2Client = new google.auth.OAuth2(
@@ -87,6 +87,9 @@ module.exports.getAccessToken = async (event) => {
         // Respond with OAuth token 
         return {
           statusCode: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
           body: JSON.stringify(token),
         };
       })
@@ -99,3 +102,54 @@ module.exports.getAccessToken = async (event) => {
         };
       });
   };
+
+  module.exports.getCalendarEvents = event => {
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uris[0]
+    );
+    // Decode authorization code extracted from the URL query
+    const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
+    oAuth2Client.setCredentials({ access_token });
+   
+    return new Promise( (resolve, reject) => {
+
+      calendar.events.list(
+        {
+          calendarId: calendar_id,
+          auth: oAuth2Client,
+          timeMin: new Date().toISOString(),
+          singleEvents: true,
+          orderBy: "startTime",
+        },
+        (error, response) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(response);
+          }
+        }
+      );
+     })
+     .then( results => {
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ events: results.data.items })
+      };
+     })
+     .catch((err) => {
+      // Handle error
+      console.error(err);
+      return {
+        statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify(err),
+      };
+    });
+  }
