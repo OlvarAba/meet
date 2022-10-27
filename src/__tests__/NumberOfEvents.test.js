@@ -24,3 +24,5 @@ describe("<NumberOfEvents /> component", () => {
     ).toBe(32);
   });
 });
+
+export default NumberOfEvents;
