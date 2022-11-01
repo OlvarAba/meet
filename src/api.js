@@ -1,7 +1,3 @@
-import { mockData } from './mock-data';
-import axios from 'axios';
-import NProgress from 'nprogress';
-
 /**
  *
  * @param {*} events:
@@ -10,6 +6,11 @@ import NProgress from 'nprogress';
  * It will also remove all duplicates by creating another new array using the spread operator and spreading a Set.
  * The Set will remove all duplicates from the array.
  */
+
+ import { mockData } from './mock-data';
+ import axios from 'axios';
+ import NProgress from 'nprogress';
+
  export const extractLocations = (events) => {
     var extractLocations = events.map((event) => event.location);
     var locations = [...new Set(extractLocations)];
@@ -40,7 +41,7 @@ import NProgress from 'nprogress';
   
     if (token) {
       removeQuery();
-      const url = 'https://iic5nbnahj.execute-api.eu-central-1.amazonaws.com/dev/api/get-events/%7Baccess_token%7D' + '/' + token;
+      const url = 'https://iic5nbnahj.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
       const result = await axios.get(url);
       if (result.data) {
         var locations = extractLocations(result.data.events);
@@ -91,7 +92,7 @@ import NProgress from 'nprogress';
   const getToken = async (code) => {
     const encodeCode = encodeURIComponent(code);
     const { access_token } = await fetch(
-      'https://iic5nbnahj.execute-api.eu-central-1.amazonaws.com/dev/api/token/%7Bcode%7D' + '/' + encodeCode
+      'https://iic5nbnahj.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
     )
       .then((res) => {
         return res.json();

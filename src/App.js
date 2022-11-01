@@ -11,22 +11,16 @@ class App extends Component {
     events: [],
     locations: [],
     numberOfEvents: 32,
-    selectedLocation: 'all',
   };
 
   updateEvents = (location, eventCount) => {
-    const { numberOfEvents } = this.state;
-    if (location === undefined) location = this.state.selectedLocation;
     getEvents().then((events) => {
       const locationEvents =
-        location === 'all'
+        location === "all"
           ? events
           : events.filter((event) => event.location === location);
-      eventCount = eventCount === undefined ? numberOfEvents : eventCount;
       this.setState({
-        events: locationEvents.slice(0, eventCount),
-        selectedLocation: location,
-        numberOfEvents: eventCount,
+        events: locationEvents.slice(0, this.state.numberOfEvents),
       });
     });
   };
@@ -46,9 +40,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>The Meet App</h1>
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <EventList  events={this.state.events} />
-        <NumberOfEvents numberOfEvents={numberOfEvents} updateEvents={this.updateEvents}/>
+        <NumberOfEvents numberOfEvents={NumberOfEvents} updateEvents={this.state.events} />
       </div>
     );
   }
