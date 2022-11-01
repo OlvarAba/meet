@@ -43,7 +43,7 @@ class App extends Component {
         <h1>The Meet App</h1>
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <EventList  events={this.state.events} />
-        <NumberOfEvents numberOfEvents={NumberOfEvents} updateEvents={this.state.events} />
+        <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.state.events} />
       </div>
     );
   }
