@@ -18,9 +18,9 @@ defineFeature(feature, test => {
       AppWrapper = mount(<App />);
     });
 
-    then('the user should see the list of upcoming events.', () => {
+    then('the user should see the list of upcoming events from all locations', () => {
       AppWrapper.update();
-      expect(AppWrapper.find('.event')).toHaveLength(mockData.length);
+      expect(AppWrapper.find('.event').hostNodes()).toHaveLength(mockData.length);
     });
   });
 
@@ -28,9 +28,9 @@ defineFeature(feature, test => {
     let CitySearchWrapper;
     given('the main page is open', () => {
       CitySearchWrapper = shallow(<CitySearch updateEvents={() => {}} locations={locations} />);
-    })
+    });
 
-    when('the user starts typing in the city textbox', () => {
+    when('user starts typing in the city textbox', () => {
       CitySearchWrapper.find('.city').simulate('change', { target: { value: 'Berlin' } });
     });
 
