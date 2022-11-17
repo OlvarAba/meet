@@ -44,8 +44,6 @@ class App extends Component {
     });
   }
 
-  
-
   componentWillUnmount(){
     this.mounted = false;
   }
@@ -64,15 +62,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>The Meet App</h1>
-        <div className="OfflineAlert">
-          {!navigator.onLine && (
-            <OfflineAlert
-              text={
-                'You are currently offline. The list of events may not be up-to-date.'
-              }
-            />
-          )}
-        </div>
+        <OfflineAlert text={this.state.warningText} />
         <h4>Choose your nearest City</h4>
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.updateEvents} />
