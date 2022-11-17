@@ -37,9 +37,9 @@
     }
 
     if (!navigator.onLine) {
-      const data = localStorage.getItem("lastEvents");
+      const events = localStorage.getItem("lastEvents");
       NProgress.done();
-      return data?JSON.parse(events).events:[];;
+      return events?JSON.parse(events).events:[];;
     }
   
   
