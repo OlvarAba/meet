@@ -6,6 +6,7 @@ import NumberOfEvents from './NumberOfEvents';
 import { getEvents,  extractLocations  } from './api';
 import './nprogress.css';
 import { OfflineAlert } from './Alert';
+import EventGenre from './EventGenre';
 import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -58,6 +59,7 @@ class App extends Component {
         <OfflineAlert text={this.state.offlineText} />
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.state.events} />
+        <EventGenre events={this.state.events} />
         <ResponsiveContainer height={400}>
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid />
